@@ -55,6 +55,21 @@ class PlistConverter {
     }
 }
 
+class InventoryUnarchiver {
+    class func vendingInventoryFromDictionary(dictionary: [String: AnyObject]) -> [VendingSelection : ItemType] {
+        
+        var inventory: [VendingSelection : ItemType] = [:]
+        
+        for (key, value) in dictionary {
+            if let itemDict = value as? [String : Double], let price = itemDict["price"], let quantity = itemDict["quantity"] {
+            
+                let item = VendingItem(price: price, quantity: quantity)
+//                inventory.updateValue(item, forKey: <#T##Hashable#>)
+            
+            }
+        }
+    }
+}
 
 //Concrete Types
 
