@@ -23,6 +23,20 @@ protocol ItemType {
     var quantity: Double { get set }
 }
 
+//Helper Classes
+/*1. take a p list file as input and returns a dictionary as iptput
+     errors may occur: file may not exist, file may be corrupted, or it may be empty
+2. take a dictionary of arbitrary input and converts it to an inventory object that we need. */
+
+/* 用class 因為要將dictionary or p list convert it to a dictionary and then convert it to an inventory, */
+
+class PlistConverter {
+    class func someMethod() {
+        
+    }
+}
+
+
 //Concrete Types
 
 enum VendingSelection {
@@ -64,6 +78,7 @@ class VendingMachine: VendingMachineType {
     func deposit(amount: Double) {
         //add code
     }
+    
 }
 
 
