@@ -23,6 +23,12 @@ protocol ItemType {
     var quantity: Double { get set }
 }
 
+
+//Error Tpyes
+enum InventryError: ErrorType {
+    case InvalidResource
+    case ConversionError
+}
 //Helper Classes
 /*1. take a p list file as input and returns a dictionary as iptput
      errors may occur: file may not exist, file may be corrupted, or it may be empty
@@ -30,11 +36,18 @@ protocol ItemType {
 
 /* 用class 因為要將dictionary or p list convert it to a dictionary and then convert it to an inventory, */
 
+
+
+
 class PlistConverter {
     class func dictionaryFromFile(resource: String, ofType type: String) throws -> [String:AnyObject] {
         
         guard let path = NSBundle.mainBundle().pathForResource(resource, ofType: type) else {
-            throw
+            throw InventryError.InvalidResource
+        }
+        
+        guard let dictionay = NSDictionary(contentsOfFile: path) else {
+            throw InventryError.ConversionError
         }
         
     }
