@@ -31,7 +31,11 @@ protocol ItemType {
 /* 用class 因為要將dictionary or p list convert it to a dictionary and then convert it to an inventory, */
 
 class PlistConverter {
-    class func someMethod() {
+    class func dictionaryFromFile(resource: String, ofType type: String) throws -> [String:AnyObject] {
+        
+        guard let path = NSBundle.mainBundle().pathForResource(resource, ofType: type) else {
+            throw
+        }
         
     }
 }
