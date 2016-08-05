@@ -25,9 +25,10 @@ protocol ItemType {
 
 
 //Error Tpyes
-enum InventryError: ErrorType {
+enum InventoryError: ErrorType {
     case InvalidResource
     case ConversionError
+    case invalidKey
 }
 //Helper Classes
 /*1. take a p list file as input and returns a dictionary as iptput
@@ -43,12 +44,12 @@ class PlistConverter {
     class func dictionaryFromFile(resource: String, ofType type: String) throws -> [String:AnyObject] {
         
         guard let path = NSBundle.mainBundle().pathForResource(resource, ofType: type) else {
-            throw InventryError.InvalidResource
+            throw InventoryError.InvalidResource
         }
         
         guard let dictionary = NSDictionary(contentsOfFile: path),
             let castDictionary = dictionary as? [String: AnyObject] else {
-            throw InventryError.ConversionError
+            throw InventoryError.ConversionError
         }
         
         return castDictionary
@@ -56,7 +57,7 @@ class PlistConverter {
 }
 
 class InventoryUnarchiver {
-    class func vendingInventoryFromDictionary(dictionary: [String: AnyObject]) -> [VendingSelection : ItemType] {
+    class func vendingInventoryFromDictionary(dictionary: [String: AnyObject]) throws -> [VendingSelection : ItemType] {
         
         var inventory: [VendingSelection : ItemType] = [:]
         
@@ -64,16 +65,22 @@ class InventoryUnarchiver {
             if let itemDict = value as? [String : Double], let price = itemDict["price"], let quantity = itemDict["quantity"] {
             
                 let item = VendingItem(price: price, quantity: quantity)
-//                inventory.updateValue(item, forKey: <#T##Hashable#>)
+                
+                guard let key = VendingSelection(rawValue: key) else {
+                    throw InventoryError.invalidKey
+                }
+                
+                inventory.updateValue(item, forKey: key)
             
             }
         }
+        return inventory
     }
 }
 
 //Concrete Types
 
-enum VendingSelection {
+enum VendingSelection: String { // adding rawvalue
     case Soda
     case DietSoda
     case Chips
