@@ -12,7 +12,7 @@ private let reuseIdentifier = "vendingItem"
 private let screenWidth = UIScreen.mainScreen().bounds.width
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!
@@ -20,6 +20,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     let vendingMachine: VendingMachineType
     var currentSelection: VendingSelection?
+    var quantity: Double = 1.0 // assume no body wanna buy 0
     
     required init?(coder aDecoder: NSCoder) {
         do {
@@ -38,14 +39,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         setupCollectionViewCells()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - UICollectionView 
-
+    // MARK: - UICollectionView
+    
     func setupCollectionViewCells() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
@@ -75,6 +76,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         currentSelection = vendingMachine.selection[indexPath.row]
         
+        
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -98,5 +100,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - Helper Methods
+    
+    @IBAction func purchase(sender: AnyObject) {
+        if let currentSelection = currentSelection {
+            do {
+                try vendingMachine.vend(currentSelection, quantity: quantity)
+            } catch {
+                // FIXME: Error Handling Code.
+            }
+        } else {
+            // FIXME: Alert user to no selection
+        }
+    }
+    
 }
 
