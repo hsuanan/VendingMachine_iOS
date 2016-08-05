@@ -31,6 +31,14 @@ enum InventoryError: ErrorType {
     case ConversionError
     case invalidKey
 }
+
+enum VendingMachineError: ErrorType {
+    case InvalidSelection
+    case OutOfStock
+    case InsufficientFunds(requireed: Double) // let user know need how many money
+    
+    
+}
 //MARK: Helper Classes
 /*1. take a p list file as input and returns a dictionary as iptput
      errors may occur: file may not exist, file may be corrupted, or it may be empty
@@ -123,7 +131,31 @@ class VendingMachine: VendingMachineType {
     }
     
     func vend(selection: VendingSelection, quantity: Double) throws {
-        //add code
+        /*when user make selection we have to make sure that: 1. selection is a valid one. 2. we have enough in stock so we have to check inventory quantity. 3. the usre has enough cash to buy the item. */
+        
+        //1
+        guard var item = inventory[selection] else {
+            throw VendingMachineError.InvalidSelection
+        }
+        //2
+        guard item.quantity > 0 else {
+            throw VendingMachineError.InvalidSelection
+        }
+        
+        item.quantity -= quantity
+        inventory.updateValue(item, forKey: selection)
+        
+        //3
+        let totalPrice = item.price * quantity
+        
+        
+        if amountDeposited >= totalPrice {
+            amountDeposited -= totalPrice
+        } else {
+            let amountRequred = totalPrice - amountDeposited
+            throw VendingMachineError.InsufficientFunds(requireed: amountRequred)
+        }
+        
     }
     
     func deposit(amount: Double) {
