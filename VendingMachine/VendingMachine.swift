@@ -140,7 +140,7 @@ class VendingMachine: VendingMachineType {
         }
         //2
         guard item.quantity > 0 else {
-            throw VendingMachineError.InvalidSelection
+            throw VendingMachineError.OutOfStock
         }
         
         item.quantity -= quantity

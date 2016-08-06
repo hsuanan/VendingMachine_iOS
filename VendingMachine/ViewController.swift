@@ -86,7 +86,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         reset()
         currentSelection = vendingMachine.selection[indexPath.row]
         updateTotalPriceLabel()
-
+        
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -114,8 +114,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             do {
                 try vendingMachine.vend(currentSelection, quantity: quantity)
                 updateBalanceLabel()
-            } catch {
-                // FIXME: Error Handling Code.
+            } catch VendingMachineError.OutOfStock {
+                showAlert()
+            } catch let error {
+                print("\(error)")
             }
         } else {
             // FIXME: Alert user to no selection
@@ -148,8 +150,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         quantityStepper.value = 1
         updateQuantityLabel()
         updateTotalPriceLabel()
-
     }
     
+    func showAlert() {
+        let alertController = UIAlertController(title: "Out of Stock", message: nil, preferredStyle: .Alert) //UIAlertControllerStyle.Alert
+        presentViewController(alertController, animated: true, completion: nil)
+    }
 }
 
