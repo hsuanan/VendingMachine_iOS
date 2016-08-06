@@ -154,7 +154,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func showAlert() {
         let alertController = UIAlertController(title: "Out of Stock", message: nil, preferredStyle: .Alert) //UIAlertControllerStyle.Alert
+        
+        //creat alert button
+        //handler is a method that is executed when we tap on an action
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: dismissAlert)
+        
+        alertController.addAction(okAction)
+        
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func dismissAlert(sender: UIAlertAction) {
+        reset()
     }
 }
 
