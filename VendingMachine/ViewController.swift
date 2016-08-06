@@ -115,9 +115,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 try vendingMachine.vend(currentSelection, quantity: quantity)
                 updateBalanceLabel()
             } catch VendingMachineError.OutOfStock {
-                showAlert()
+                showAlert("Out of Stock")
+            } catch VendingMachineError.InsufficientFunds(requireed: let amount){
+                showAlert("Insuffucuent Funds", message: "Additional $\(amount) required to complete the transaction")
+            } catch VendingMachineError.InvalidSelection {
+                showAlert("Invalid Selections")
             } catch let error {
-                print("\(error)")
+                fatalError("\(error)")
             }
         } else {
             // FIXME: Alert user to no selection
@@ -152,8 +156,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         updateTotalPriceLabel()
     }
     
-    func showAlert() {
-        let alertController = UIAlertController(title: "Out of Stock", message: nil, preferredStyle: .Alert) //UIAlertControllerStyle.Alert
+    func showAlert(title: String, message: String? = nil, preferredStyle: UIAlertControllerStyle = .Alert) {
+        // parameter 可以 default value,若之後沒特別指定,就是這個default value
+        
+        let alertController = UIAlertController (title: title, message: message, preferredStyle: preferredStyle) //UIAlertControllerStyle.Alert
         
         //creat alert button
         //handler is a method that is executed when we tap on an action
