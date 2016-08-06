@@ -24,7 +24,4 @@ class DepostViewController: UIViewController {
     @IBAction func dismiss() {
         dismissViewControllerAnimated(true, completion: nil)
     }
-
-
-
 }
