@@ -189,10 +189,10 @@
             </objects>
             <point key="canvasLocation" x="736" y="650"/>
         </scene>
-        <!--View Controller-->
+        <!--Depost View Controller-->
         <scene sceneID="1GY-hf-7JI">
             <objects>
-                <viewController id="P0P-rJ-iVX" sceneMemberID="viewController">
+                <viewController id="P0P-rJ-iVX" customClass="DepostViewController" customModule="VendingMachine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uth-yC-Igk"/>
                         <viewControllerLayoutGuide type="bottom" id="Wjd-jb-ymt"/>
@@ -209,8 +209,9 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="d6T-CW-GKr"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Purchase"/>
+                                <state key="normal" title="Dismiss"/>
                                 <connections>
+                                    <action selector="dismiss" destination="P0P-rJ-iVX" eventType="touchUpInside" id="HYR-yz-a14"/>
                                     <action selector="purchase:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fhv-jt-FiH"/>
                                 </connections>
                             </button>
